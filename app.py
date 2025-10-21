@@ -21,7 +21,7 @@ def is_palindrome(s: str) -> bool:
     reverse = ''
     for i in range(len(s)-1, -1, -1):
         reverse += s[i]
-    return s == reverse
+    return s.lower() == reverse.lower()
 
 def unique_xters(s: str) -> int:
     """
