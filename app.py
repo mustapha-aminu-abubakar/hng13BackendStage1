@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, abort
 import hashlib
+import re
 import json
 from datetime import datetime, timezone
 from gen_ai import query_json, parse_gemini_json
@@ -21,7 +22,7 @@ def is_palindrome(s: str) -> bool:
     reverse = ''
     for i in range(len(s)-1, -1, -1):
         reverse += s[i]
-    return s.lower() == reverse.lower()
+    return s == reverse
 
 def unique_xters(s: str) -> int:
     """
@@ -217,7 +218,7 @@ def filter_by_nl():
     You are a JSON data filtering engine.
 
     Below is a JSON dataset and a filter condition.
-    Your task is to return ONLY the objects FROM the JSON data that match the filter condition.
+    Your task is to return ONLY the objects that match the filter condition.
     Always include a "parsed_filters" object summarizing all constraints or filters mentioned in the user input (e.g., word_count, is_palindrome, length, etc.).
     Do not add explanations, comments, or any extra text. 
     Output must be a valid JSON object or array that can be parsed directly with `json.loads()`.
@@ -227,27 +228,47 @@ def filter_by_nl():
 
     ### JSON data:
     {json_data}
+    
+    ### Output format:
+        {{
+            "parsed_filters": {{
+                // key-value pairs of parsed filters
+            }},
+            "filtered_results": [
+                // array of objects matching the filter condition
+                {{
+                    "value": // the string value,
+                    "id": // the string id,
+                    "properties": {{
+                        "length": // length of the string,
+                        "is_palindrome": // is_palindrome status - true or false,
+                        "word_count": // word count as an integer,
+                        "sha_256_hash": // sha256 hash - same as id,
+                        "character_frequency_map": // character frequency map
+                    }},
+                    "created_at": // creation timestamp
+                }}
+            ],
+        }}
 
     Return:
-    Respond only with valid JSON format without escape characters. Do not include explanations, code blocks, or backticks. Your response must be a single valid JSON object containing only the filtered results
-
+    Respond only with the valid JSON format without escape characters. 
+    Do not include explanations, code blocks, or backticks. 
     """
     try:
         response = query_json(prompt)
-        response_clean = parse_gemini_json(response['Cleaned JSON'])
-        # print('--------------filter', filter_string)
+        response_clean = parse_gemini_json(response)
+        # print('--------------filter', response_clean)
     except Exception as e:
         return jsonify({'error' : str(e)}), 400
-    
-    # print(response_clean)
     
     output = {
         'interpreted_query': {
         'parsed_filters': response_clean.get('parsed_filters', {}),
         'original': filter_string[6:].replace('%20', ' '),
         },
-        'count': len(response_clean.get('filtered_results', [])),
-        'data': [obj['value'] for obj in response_clean.get('filtered_results', [])]
+        'count': len(response_clean.get('filtered_results', [])) or len(response_clean.get('results', [])),
+        'data': [obj.get('value') for obj in response_clean.get('filtered_results', [])]
     }
     return jsonify(output), 200
 

@@ -1,61 +1,23 @@
 {
-    "terminator": {
-        "value": "terminator",
-        "id": "aa802f654e3ae7aaa1b73f8724056a05e2691accea8dd90057916080f84d7e93",
+    "what a day": {
+        "value": "what a day",
+        "id": "41e6c2bfaa03c8bec501d3531732f4ace9dc47c04b9016438ee9229bf7950416",
         "properties": {
             "length": 10,
             "is_palindrome": false,
-            "unique_characters": 8,
-            "word_count": 1,
-            "sha256_hash": "aa802f654e3ae7aaa1b73f8724056a05e2691accea8dd90057916080f84d7e93",
+            "unique_characters": 7,
+            "word_count": 3,
+            "sha256_hash": "41e6c2bfaa03c8bec501d3531732f4ace9dc47c04b9016438ee9229bf7950416",
             "character_frequency_map": {
-                "t": 2,
-                "e": 1,
-                "r": 2,
-                "m": 1,
-                "i": 1,
-                "n": 1,
-                "a": 1,
-                "o": 1
-            }
-        },
-        "created_at": "2025-10-20T19:05:26Z"
-    },
-    "level": {
-        "value": "level",
-        "id": "0081779c287d567d9ca622f4c0cc2ede819b0cc7f286a5f01d8c3c0178191ad6",
-        "properties": {
-            "length": 5,
-            "is_palindrome": true,
-            "unique_characters": 3,
-            "word_count": 1,
-            "sha256_hash": "0081779c287d567d9ca622f4c0cc2ede819b0cc7f286a5f01d8c3c0178191ad6",
-            "character_frequency_map": {
-                "l": 2,
-                "e": 2,
-                "v": 1
-            }
-        },
-        "created_at": "2025-10-20T19:05:58Z"
-    },
-    "dragon": {
-        "value": "dragon",
-        "id": "a9c43be948c5cabd56ef2bacffb77cdaa5eec49dd5eb0cc4129cf3eda5f0e74c",
-        "properties": {
-            "length": 6,
-            "is_palindrome": false,
-            "unique_characters": 6,
-            "word_count": 1,
-            "sha256_hash": "a9c43be948c5cabd56ef2bacffb77cdaa5eec49dd5eb0cc4129cf3eda5f0e74c",
-            "character_frequency_map": {
+                "w": 1,
+                "h": 1,
+                "a": 3,
+                "t": 1,
+                " ": 2,
                 "d": 1,
-                "r": 1,
-                "a": 1,
-                "g": 1,
-                "o": 1,
-                "n": 1
+                "y": 1
             }
         },
-        "created_at": "2025-10-20T19:06:41Z"
+        "created_at": "2025-10-21T10:53:47Z"
     }
 }
