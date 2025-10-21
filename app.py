@@ -244,7 +244,7 @@ def filter_by_nl():
     output = {
         'interpreted_query': {
         'parsed_filters': response_clean.get('parsed_filters', {}),
-        'original': filter_string.replace('_', ' '),
+        'original': filter_string[6:].replace('&20', ' '),
         },
         'count': len(response_clean.get('filtered_results', [])),
         'data': [obj['value'] for obj in response_clean.get('filtered_results', [])]
