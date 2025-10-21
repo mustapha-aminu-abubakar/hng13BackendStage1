@@ -217,7 +217,7 @@ def filter_by_nl():
     You are a JSON data filtering engine.
 
     Below is a JSON dataset and a filter condition.
-    Your task is to return ONLY the objects that match the filter condition FROM the JSON data.
+    Your task is to return ONLY the objects FROM the JSON data that match the filter condition.
     Always include a "parsed_filters" object summarizing all constraints or filters mentioned in the user input (e.g., word_count, is_palindrome, length, etc.).
     Do not add explanations, comments, or any extra text. 
     Output must be a valid JSON object or array that can be parsed directly with `json.loads()`.
