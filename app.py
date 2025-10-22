@@ -162,6 +162,7 @@ def filter_strings():
     max_length = request.args.get('max_length', type=int)
     word_count = request.args.get('word_count', type=int)
     contains_character = request.args.get('contains_character')
+    filters_applied = {}
 
     with open('strings.json', 'r') as f:
         json_data = json.load(f)
@@ -173,24 +174,36 @@ def filter_strings():
         if is_palindrome is not None:
             if str(props['is_palindrome']).lower() != is_palindrome.lower():
                 continue
+        elif is_palindrome: 
+            filters_applied['is_palindrome'] = True
         # Filter by min_length
         if min_length is not None and props['length'] < min_length:
             continue
+        elif min_length:
+            filters_applied['min_length'] = min_length
         # Filter by max_length
         if max_length is not None and props['length'] > max_length:
             continue
+        elif max_length:
+            filters_applied['max_length'] = max_length
         # Filter by word_count
         if word_count is not None and props['word_count'] != word_count:
             continue
+        elif word_count:
+            filters_applied['word_count'] = word_count
         # Filter by contains_character
         if contains_character and contains_character not in entry['value']:
             continue
+        elif contains_character:
+            filters_applied['contains_character'] = contains_character
         results.append(entry)
     
-    if len(results) == 0:
-        return jsonify({'error': 'Bad Request', 'message': 'No strings found matching the criteria'}), 400
-    
-    return jsonify(results), 200
+    # if len(results) == 0:
+    #     return jsonify({'error': 'Bad Request', 'message': 'No strings found matching the criteria'}), 400
+    try:
+        return jsonify({"data": results, "count": len(results), "filters_applied": filters_applied}), 200
+    except:
+        return jsonify({'error': 'Bad Request', 'message': 'No strings found matching the criteria'}), 400  
 
 @app.route('/strings/filter-by-natural-language', methods=['GET'])
 def filter_by_nl():
@@ -268,7 +281,7 @@ def filter_by_nl():
         'original': filter_string[6:].replace('%20', ' '),
         },
         'count': len(response_clean.get('filtered_results', [])) or len(response_clean.get('results', [])),
-        'data': [obj.get('value') for obj in response_clean.get('filtered_results', [])]
+        'data': [obj for obj in response_clean.get('filtered_results', [])]
     }
     return jsonify(output), 200
 
